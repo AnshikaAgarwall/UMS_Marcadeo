@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #eef2f3, #dfe9f3);
+    }
+
+    .login-wrapper {
+        min-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-card {
+        max-width: 400px;
+        width: 100%;
+        padding: 25px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .credit {
+    margin-top: 15px;
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    color: #ffffff;
+
+    /* 🔥 BLUE BORDER EFFECT */
+    -webkit-text-stroke: 0.5px #4a90e2;
+
+    /* fallback glow for better visibility */
+    text-shadow: 0 0 4px rgba(74, 144, 226, 0.6);
+
+
+}
+
+    .credit a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .credit a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-wrapper">
+
+    <div class="login-card text-center">
+        <h3 class="fw-bold mb-2">Welcome to UMS</h3>
+        <p class="text-muted mb-4">Please enter your details to sign in</p>
+
+        {% if error %}
+        <div class="alert alert-danger py-2 small">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3 text-start">
+                <label class="small fw-bold">Username</label>
+                <input name="username" class="form-control" required placeholder="Enter username">
+            </div>
+
+            <div class="mb-4 text-start">
+                <label class="small fw-bold">Password</label>
+                <input type="password" name="password" class="form-control" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Sign In</button>
+        </form>
+    </div>
+
+    <!-- CREDIT LINE -->
+    <div class="credit">
+        THIS PROJECT IS MADE BY ANSHIKA AGARWAL FOR 
+        <a href="https://marcadeo.in/" target="_blank">MARCADEO</a>
+    </div>
+
+</div>
+
+{% endblock %}

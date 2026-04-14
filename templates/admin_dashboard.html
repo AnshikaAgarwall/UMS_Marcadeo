@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-4 text-start">
+    <div>
+        <h3 class="fw-bold mb-1">Admin Control</h3>
+        <p class="text-muted mb-0">System-wide user management</p>
+    </div>
+    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">+ Add User</button>
+</div>
+
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead class="table-light">
+            <tr>
+                <th class="border-0 text-muted small px-3">USER</th>
+                <th class="border-0 text-muted small">ROLE</th>
+                <th class="border-0 text-muted small">MANAGER</th>
+                <th class="border-0 text-muted small text-end">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td class="px-3 fw-medium">{{ user.username }}</td>
+                <td><span class="badge rounded-pill bg-light text-dark border">{{ user.role|title }}</span></td>
+                <td>
+                    <form method="POST" action="{% url 'assign_manager' user.id %}">
+                        {% csrf_token %}
+                        <select name="manager_id" onchange="this.form.submit()" class="form-select form-select-sm" style="width: 140px;">
+                            <option value="">No Manager</option>
+                            {% for m in managers %}
+                            <option value="{{ m.id }}" {% if user.manager.id == m.id %}selected{% endif %}>{{ m.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </td>
+                <td class="text-end">
+                    <a href="{% url 'edit_user' user.id %}" class="btn btn-link btn-sm text-decoration-none">Edit</a>
+                    <form method="POST" action="{% url 'delete_user' user.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link btn-sm text-danger text-decoration-none" onclick="return confirm('Delete?')">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{% url 'logout' %}" class="text-muted small">Logout Session</a>
+</div>
+
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <form method="POST" action="{% url 'add_user' %}">
+                {% csrf_token %}
+                <div class="modal-body p-4">
+                    <h5 class="fw-bold mb-4">Create New Account</h5>
+                    <input name="username" class="form-control mb-3" placeholder="Username" required>
+                    <input name="email" type="email" class="form-control mb-3" placeholder="Email" required>
+                    <input name="password" type="password" class="form-control mb-3" placeholder="Password" required>
+                    <select name="role" class="form-select mb-4">
+                        <option value="user">User</option>
+                        <option value="manager">Manager</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100">Save User</button>
+                        <button type="button" class="btn btn-light w-100" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

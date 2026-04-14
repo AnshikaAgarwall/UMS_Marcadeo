@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-start" style="max-width: 500px; margin: 0 auto;">
+    <a href="javascript:history.back()" class="text-muted small text-decoration-none">← Back to Dashboard</a>
+    
+    <div class="mt-4 mb-4">
+        <h3 class="fw-bold mb-1">Edit User Profile</h3>
+        <p class="text-muted">Updating account details for <strong>{{ user.username }}</strong></p>
+    </div>
+
+    <div class="card p-4 shadow-sm border-0">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="small fw-bold text-muted">Username</label>
+                <input name="username" class="form-control" value="{{ user.username }}" required>
+            </div>
+            
+            <div class="mb-4">
+                <label class="small fw-bold text-muted">Email Address</label>
+                <input name="email" type="email" class="form-control" value="{{ user.email }}" required>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="javascript:history.back()" class="btn btn-light">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
