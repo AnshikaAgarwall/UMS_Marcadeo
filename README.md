@@ -1,7 +1,3 @@
-This README is designed to look professional for your portfolio and explain your project clearly to a hiring manager or a fellow developer.
-
----
-
 # 🛡️ TeamGuard: Role-Based Management System
 
 A clean, centered, and professional User Management System built with **Django**. This application allows for hierarchical control where Admins manage the platform, Managers oversee assigned teams, and Users manage their own profiles.
